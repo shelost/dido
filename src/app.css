@@ -1,107 +1,205 @@
-@import '@fontsource/fira-mono';
-
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 :root {
-	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	--font-mono: 'Fira Mono', monospace;
-	--color-bg-0: rgb(202, 216, 228);
-	--color-bg-1: hsl(209, 36%, 86%);
-	--color-bg-2: hsl(224, 44%, 95%);
-	--color-theme-1: #ff3e00;
-	--color-theme-2: #4075a6;
-	--color-text: rgba(0, 0, 0, 0.7);
-	--column-width: 42rem;
-	--column-margin-top: 4rem;
-	font-family: var(--font-body);
-	color: var(--color-text);
+  --font-body: Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+  	Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --font-mono: "Fira Mono", monospace;
+  --color-bg-0: rgb(202, 216, 228);
+  --color-bg-1: hsl(209, 36%, 86%);
+  --color-bg-2: hsl(224, 44%, 95%);
+  --color-theme-1: #ff3e00;
+  --color-theme-2: #4075a6;
+  --color-text: rgba(0, 0, 0, 0.7);
+  --column-width: 42rem;
+  --column-margin-top: 4rem;
+  font-family: var(--font-body);
+  color: var(--color-text);
 }
 
 body {
-	min-height: 100vh;
-	margin: 0;
-	background-attachment: fixed;
-	background-color: var(--color-bg-1);
-	background-size: 100vw 100vh;
-	background-image: radial-gradient(
-			50% 50% at 50% 50%,
-			rgba(255, 255, 255, 0.75) 0%,
-			rgba(255, 255, 255, 0) 100%
-		),
-		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
+  min-height: 100vh;
+  margin: 0;
+  background-attachment: fixed;
+  background-color: var(--color-bg-1);
+  background-size: 100vw 100vh;
+  /*
+  background-image: radial-gradient(
+  		50% 50% at 50% 50%,
+  		rgba(255, 255, 255, 0.75) 0%,
+  		rgba(255, 255, 255, 0) 100%
+  	),
+  	linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
+  	(*/
+  background: rgb(232, 237, 248);
 }
 
 h1,
 h2,
 p {
-	font-weight: 400;
+  font-weight: 400;
+  margin: 0;
+}
+
+h1, h2 {
+  font-family: "Inter", sans-serif;
+  color: #030025;
+  margin: 0;
+}
+
+h3, h4, p {
+  font-family: "Inter", sans-serif;
+  color: #030025;
+  margin: 0;
 }
 
 p {
-	line-height: 1.5;
+  line-height: 1.5;
 }
 
 a {
-	color: var(--color-theme-1);
-	text-decoration: none;
+  color: var(--color-theme-1);
+  text-decoration: none;
 }
 
 a:hover {
-	text-decoration: underline;
-}
-
-h1 {
-	font-size: 2rem;
-	text-align: center;
+  text-decoration: underline;
 }
 
 h2 {
-	font-size: 1rem;
+  font-size: 1rem;
 }
 
 pre {
-	font-size: 16px;
-	font-family: var(--font-mono);
-	background-color: rgba(255, 255, 255, 0.45);
-	border-radius: 3px;
-	box-shadow: 2px 2px 6px rgb(255 255 255 / 25%);
-	padding: 0.5em;
-	overflow-x: auto;
-	color: var(--color-text);
+  font-size: 16px;
+  font-family: var(--font-mono);
+  background-color: rgba(255, 255, 255, 0.45);
+  border-radius: 3px;
+  box-shadow: 2px 2px 6px rgba(255, 255, 255, 0.25);
+  padding: 0.5em;
+  overflow-x: auto;
+  color: var(--color-text);
 }
 
 .text-column {
-	display: flex;
-	max-width: 48rem;
-	flex: 0.6;
-	flex-direction: column;
-	justify-content: center;
-	margin: 0 auto;
+  display: flex;
+  max-width: 48rem;
+  flex: 0.6;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 input,
 button {
-	font-size: inherit;
-	font-family: inherit;
+  font-size: inherit;
+  font-family: inherit;
 }
 
 button:focus:not(:focus-visible) {
-	outline: none;
+  outline: none;
 }
 
 @media (min-width: 720px) {
-	h1 {
-		font-size: 2.4rem;
-	}
+  h1 {
+    font-size: 2.4rem;
+  }
+}
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: auto;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
 }
 
-.visually-hidden {
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: auto;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-	white-space: nowrap;
+.label {
+  margin: 0;
+  color: rgb(115, 122, 160);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.16px;
 }
+
+.card {
+  padding: 24px;
+  border-radius: 12px;
+  background: white;
+  margin: 24px;
+  box-shadow: -4px 12px 36px rgba(8, 18, 75, 0.1), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 8px rgba(8, 18, 75, 0.03);
+}
+
+.button {
+  background: #6355FF;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 10px 18px 11px 18px;
+  border: none;
+  box-shadow: -2px 8px 8px rgba(8, 18, 75, 0.3), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 6px 2px rgba(8, 18, 75, 0.2);
+  margin: 4px 0;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+.button h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  text-shadow: -2px 4px 8px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.1px;
+  transition: 0.2s ease;
+}
+.button:hover {
+  box-shadow: -2px 8px 12px rgba(0, 0, 0, 0.08), inset 0px 4px 8px 2px rgba(0, 0, 0, 0.3), inset -2px -3px 6px rgba(255, 255, 255, 0.1);
+}
+.button:hover h2 {
+  transform: translateY(0.3px);
+}
+.button.primary h2 {
+  text-shadow: -2px 4px 8px rgba(0, 0, 0, 0.3);
+}
+.button.primary:hover h2 {
+  text-shadow: -2px 4px 8px rgba(0, 0, 0, 0.2);
+}
+.button.secondary {
+  border: 1px solid #6355ff;
+  background: rgba(255, 255, 255, 0);
+  color: #6355FF;
+  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0.1), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 8px rgba(3, 0, 37, 0.1);
+}
+.button.secondary h2 {
+  color: #6355ff;
+}
+.button.secondary:hover {
+  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0), inset 0px 6px 8px rgba(3, 0, 37, 0.15), inset -2px -3px 6px rgba(255, 255, 255, 0.1);
+}
+.button.tertiary {
+  background: #d6e0ff;
+  border: 1px solid #d6e0ff;
+  color: #6355FF;
+  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0.08), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 6px rgba(3, 0, 37, 0.05);
+}
+.button.tertiary h2 {
+  color: #08124b;
+}
+.button.tertiary:hover {
+  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0), inset 1px 4px 6px 2px rgba(8, 18, 75, 0.1), inset -1px -3px 8px rgba(255, 255, 255, 0.08);
+}
+.button.mini {
+  background: #08124b;
+  padding: 7px 12px 8px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0.08), inset 1px 2px 3px rgba(255, 255, 255, 0.25), inset -1px -3px 8px rgba(3, 0, 37, 0.9);
+  margin: 8px 0;
+}
+.button.mini h2 {
+  font-size: 13px;
+}/*# sourceMappingURL=app.css.map */
