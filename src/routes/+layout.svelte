@@ -9,9 +9,9 @@
 
 <svelte:head>
 	<title> Dido </title>
-	<meta name="description" content="Heewon's Portfolio" />
+	<meta name="description" content="A More Elegant UI Library" />
 	<meta name="view-transition" content="same-origin" />
-	<link rel="icon" href="logo-square.png" />
+	<link rel="icon" href="/logo-square.png" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -24,6 +24,7 @@
 	</main>
 
 </div>
+
 
 <style lang="scss">
 	.app {

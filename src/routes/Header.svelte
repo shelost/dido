@@ -5,51 +5,75 @@
   import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
-	function switchPage(page) {
+	// Function to position the pill without navigation
+	function positionPill(tabId) {
+		// Only run in browser environment
+		if (typeof window === 'undefined') return;
 
-		let tab = document.getElementById(page);
+		let tab = document.getElementById(tabId);
+		if (!tab) return; // Guard against possible null elements
+
 		let rect = tab.getBoundingClientRect();
+		let header = document.getElementsByTagName('header')[0];
+		if (!header) return;
 
+		let headerRect = header.getBoundingClientRect();
 		let pill = document.getElementById('pill');
-		pill.style.left = `${rect.left}px`;
-		pill.style.top = `${rect.top}px`;
+		if (!pill) return;
+
+		pill.style.left = `${rect.left - headerRect.left}px`;
+		pill.style.top = `${rect.top - headerRect.top}px`;
 		pill.style.width = `${rect.width}px`;
 		pill.style.height = `${rect.height}px`;
+	}
 
-		console.log('yo')
+	// Function to switch page (includes navigation)
+	function switchPage(pageId) {
+		positionPill(pageId);
 
-
-		if (page === 'home') {
+		if (pageId === 'home') {
 			goto('/')
 		} else {
-			goto('/' + page)
+			goto('/' + pageId)
 		}
 	}
 
+	// Get current page ID from URL
+	function getCurrentPageId() {
+		if (page.url.pathname === '/') return 'home';
+		if (page.url.pathname.startsWith('/demo')) return 'demo';
+		return page.url.pathname.substring(1); // removes the leading '/'
+	}
+
+	// Variables for storing handlers
+	let resizeHandler;
+
 	onMount(() => {
+		// Get the current page ID from the URL
+		const currentPageId = getCurrentPageId();
 
-		switchPage('home')
-
+		// Position the pill without navigation - with a slight delay to ensure DOM is ready
 		setTimeout(() => {
-			switchPage('home')
-		}, 1000)
-		/*
+			positionPill(currentPageId);
+		}, 50);
 
-		window.onresize = () => {
-			switch (page.url.pathname) {
-				case '/':
-					switchPage('home')
-					break;
-				default:
-					switchPage(page.url.pathname.substring(1));
-					break
-			}
-		}
-			*/
-	})
+		// Handle window resize with debounce
+		resizeHandler = () => {
+			positionPill(getCurrentPageId());
+		};
 
+		window.addEventListener('resize', resizeHandler);
 
+		// Clean up event listeners when component is destroyed
+		return () => {
+			window.removeEventListener('resize', resizeHandler);
+		};
+	});
 
+	// Subscribe to page changes to update pill position - only runs in browser
+	$: if (page && typeof window !== 'undefined') {
+		setTimeout(() => positionPill(getCurrentPageId()), 0);
+	}
 </script>
 
 <header>
@@ -58,7 +82,6 @@
 	</div>
 
 	<nav>
-
 		<div id = 'pill'></div>
 
 			<div id = 'home' class = 'tab' class:active={page.url.pathname === '/'} on:click={() => {switchPage('home')}}>
@@ -88,20 +111,23 @@
 </header>
 
 <style lang="scss">
-
-
 	header {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: center;
 		position: fixed;
-		top: 0;
+		top: 6px;
 		left: 0;
-		width: 100vw;
+
 		z-index: 10;
-		margin-top: 10px;
-		padding: 0 12px;
+		padding: 6px 12px;
 		box-sizing: border-box;
+		background: rgba(white, 0);
+		border-radius: 24px;
+		margin: 0px;
+		width: calc(100vw - 24px);
+		//background: rgba(232, 240, 248, .8);
+		backdrop-filter: blur(0px);
 	}
 
 
@@ -113,7 +139,7 @@
 		left: 50%;
 		border-radius: 50px;
 		background: #6355FF;
-		box-shadow: -2px 4px 10px rgba(#030025, 0.5), inset -2px -4px 8px rgba(#030025, 0.25), inset 2px 4px 8px rgba(white, 0.2);
+		box-shadow: -2px 4px 10px rgba(#030025, 0.25), inset -2px -4px 8px rgba(#030025, 0.25), inset 2px 4px 8px rgba(white, 0.2);
 		transition: .2s ease;
 	}
 
@@ -122,10 +148,10 @@
 		justify-content: center;
 		position: relative;
 
-		padding: 6px 6px;
-		border-radius: 50px;
-		background: white;
-		box-shadow: -10px 10px 10px rgba(#030025, 0.2), inset -2px -2px 4px rgba(#030025, 0.1), inset 2px 4px 8px rgba(white, 0.2);
+		padding: 0px 0px;
+		border-radius: 48px;
+		//background: white;
+		//box-shadow: -10px 10px 10px rgba(#030025, 0.2), inset -2px -2px 4px rgba(#030025, 0.1), inset 2px 4px 8px rgba(white, 0.2);
 		gap: 0px;
 		z-index: 2;
 	}
@@ -141,8 +167,8 @@
 		transition: .2s ease;
 		h2{
 			font-size: 14px;
-			font-weight: 600;
-			letter-spacing: -.4px;
+			font-weight: 550;
+			letter-spacing: -.3px;
 		}
 		&.active{
 			h2{
@@ -156,6 +182,10 @@
 	}
 
 
+	.corner{
+		display: none;
+	}
+
 	.corner a {
 		display: flex;
 		align-items: center;
@@ -165,16 +195,16 @@
 	}
 
 	.corner img {
-		width: 36px;
-		height: 36px;
+		width: 32px;
+		height: 32px;
 	}
 
 	#logo{
-		width: 36px;
-		height: 36px;
+		width: 32px;
+		height: 32px;
 		border-radius: 8px;
 		object-fit: contain;
-		box-shadow: -6px 6px 12px rgba(#030025, 0.3), inset -4px -4px 10px rgba(black, 0.9);
+		//box-shadow: -6px 6px 12px rgba(#030025, 0.3), inset -4px -4px 10px rgba(black, 0.9);
 	}
 
 
@@ -230,3 +260,4 @@
 		color: var(--color-theme-1);
 	}
 </style>
+

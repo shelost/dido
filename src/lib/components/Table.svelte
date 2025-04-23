@@ -1,5 +1,6 @@
 <script>
     import { fly } from 'svelte/transition';
+    import { onMount } from 'svelte';
 
     export let title = 'Table';
 
@@ -75,32 +76,42 @@
 			amount: '40.00'
 		}
 	]
+
+    // Animation control
+    let visible = false;
+
+    onMount(() => {
+        // Trigger animations after component is mounted
+        visible = true;
+    });
 </script>
 
 <div class = 'table'>
     <div class = 'title'>
         <h2> {title} </h2>
     </div>
-    {#each Rows as r, i}
-        <div class = 'row' class:first={i === 0} in:fly={{y: 100, delay: 200*i}}>
-            <div class = 'date flex'>
-                <h2> {r.date} </h2>
-                <h3> {r.time} </h3>
+    {#each Rows as r, i (i)}
+        {#if visible || i === 0}
+            <div class = 'row' class:first={i === 0} in:fly={{y: 20, duration: 400, delay: 50+i * 30}}>
+                <div class = 'date flex'>
+                    <h2> {r.date} </h2>
+                    <h3> {r.time} </h3>
+                </div>
+                <div class = 'email flex'>
+                    <h2> {r.email} </h2>
+                </div>
+                <div class = 'product flex'>
+                    <h2> {r.product} </h2>
+                </div>
+                <div class = 'amount flex'>
+                    {#if i === 0}
+                        <h2> {r.amount} </h2>
+                    {:else}
+                        <h2> ${r.amount} </h2>
+                    {/if}
+                </div>
             </div>
-            <div class = 'email flex'>
-                <h2> {r.email} </h2>
-            </div>
-            <div class = 'product flex'>
-                <h2> {r.product} </h2>
-            </div>
-            <div class = 'amount flex'>
-                {#if i === 0}
-                    <h2> {r.amount} </h2>
-                {:else}
-                    <h2> ${r.amount} </h2>
-                {/if}
-            </div>
-        </div>
+        {/if}
     {/each}
 </div>
 

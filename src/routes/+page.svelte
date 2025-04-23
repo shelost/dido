@@ -14,36 +14,23 @@
 		scale,
 		slide
 	} from 'svelte/transition';
+	import { onMount } from 'svelte';
 
 	import Chart from '$lib/components/Chart.svelte'
 	import Table from '$lib/components/Table.svelte'
 	import Phone from '$lib/components/Phone.svelte'
+	import Cashout from '$lib/components/Cashout.svelte'
+	import Calendar from '$lib/components/Calendar.svelte'
 
 	let show = writable(false)
 	let modal = writable(false)
 	let Modal, Flow
-
-	setTimeout(() => {
-		show.set(true)
-	}, 100);
-
-
 
 	// Delays
 	let d = []
 	for (let i=0; i<100; i++){
 		d.push(40*i)
 	}
-
-	// Numbers
-	let val = 0
-	let val2 = 0
-	setTimeout(() => {
-		val = 54697
-	}, 300);
-	setTimeout(() => {
-		val2 = 15342
-	}, 500);
 
 	// Customers
 	let Customers = [
@@ -64,30 +51,65 @@
 		}
 	]
 
+	// Numbers
+	let val = 0
+	let val2 = 0
 
+	// Safely wrap all browser-only code in onMount to prevent SSR issues
+	onMount(() => {
+		// Show components after a short delay
+		setTimeout(() => {
+			show.set(true)
+		}, 100);
 
-    function parallaxScroll(){
-        let scroll = window.scrollY
-    }
+		// Set number values with delay
+		setTimeout(() => {
+			val = 54697
+		}, 300);
 
-    window.addEventListener('scroll', parallaxScroll)
+		setTimeout(() => {
+			val2 = 15342
+		}, 500);
 
+		// Scrolling function
+		function parallaxScroll(){
+			let scroll = window.scrollY
+		}
 
+		// Add event listener only in browser environment
+		window.addEventListener('scroll', parallaxScroll);
+
+		// Clean up event listener when component is destroyed
+		return () => {
+			window.removeEventListener('scroll', parallaxScroll);
+		};
+	});
+
+	// Missing function referenced in the modal code
+	function closeModal() {
+		modal.set(false);
+	}
 </script>
 
+
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title> Home </title>
+	<meta name="description" content="A More Elegant UI Library" />
+	<meta name="view-transition" content="same-origin" />
+	<link rel="icon" href="logo-square.png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </svelte:head>
 
 
-<section id = 'app'>
+<section id = 'app' in:fly={{y: 50, duration: 400}} out:fly={{y: 50, duration: 200}}>
 
 
 <section>
 	<div class = 'title'>
-		<h1> Dido UI </h1>
-		<h2> A More Elegant Component Library </h2>
+		<h1 in:fly={{y: 50, delay: 200}}> Dido </h1>
+		<h2 in:fly={{y: 50, delay: 225}}> A More Elegant Component Library </h2>
 	</div>
 </section>
 
@@ -114,16 +136,7 @@
 	</div>
 
 	<div class = 'card a4'  in:fly={{y: 100, delay: d[3]}}>
-		<div class = 'head'>
-			<h2> February <span> 2025 </span> </h2>
-		</div>
-		<div class = 'calendar'>
-			{#each [...Array(27).keys()] as i}
-				<div class = 'day' class:active={i === 11}>
-					<p> {i+1} </p>
-				</div>
-			{/each}
-		</div>
+		<Calendar />
 	</div>
 
 	<div class = 'card a5'  in:fly={{y: 100, delay: d[4]}}>
@@ -175,18 +188,11 @@
         </div>
 
 
-
-
 	</div>
 
 	<div class = 'card a7'  in:fly={{y: 100, delay: d[6]}}>
 
-        <div class = 'head'>
-            <h1> Orders </h1>
-        </div>
-
-
-		<Table />
+		<Table title='Orders' />
 
 	</div>
 
@@ -207,7 +213,7 @@
 
             <div class="toggle">
                 <label class="toggle-switch">
-                    <h3 class = 'label'> Advanced Settings </h3>
+                    <h3 class = 'label'> Enable Payments </h3>
                     <input type="checkbox">
                     <span class="toggle-slider"></span>
                 </label>
@@ -229,8 +235,8 @@
 						<h2> {c.email} </h2>
 					</div>
 				</div>
-				<button class = 'small'>
-					<h3> View </h3>
+				<button class = 'button mini'>
+					<h2> View </h2>
 				</button>
 			</div>
 		{/each}
@@ -271,18 +277,20 @@
 
     $dark:  #0d1852;
 
-	:global(number-flow-svelte) {
-		--number-flow-char-height: 0.85em;
-		font-size: 52px;
-		letter-spacing: -2.5px;
-		font-weight: 700;
-		font-family: 'Inter', sans-serif;
-		color: $dark;
-	}
+
 
 	#app{
 		width: 100%;
         color: $dark;
+	}
+
+	.head{
+		h2{
+			font-size: 18px;
+			font-weight: 600;
+			letter-spacing: -.3px;
+			margin-bottom: 8px;
+		}
 	}
 
 	.phone{
@@ -384,78 +392,14 @@
 		}
 	}
 
-	button{
-		display: flex;
-		align-items: center;
-		border: 1px solid rgba(black, .2);
-		border-radius: 6px;
-		background: rgba(black, .05);
-		transition: .2s ease;
-		cursor: pointer;
-		&.small{
-			height: 32px;
-			padding: 0 10px;
-			h3{
-				font-size: 12px;
-				font-weight: 500;
-				letter-spacing: -.25px;
-				line-height: 100%;
-			}
-			&:hover{
-				background: rgba(black, .09);
-			}
-		}
-	}
 
 
 
-	.head{
-		margin-bottom: 8px;
-		span{
-			font-weight: 300;
-            letter-spacing: -0.6px;
-		}
-	}
-
-	.calendar{
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		text-align: center;
-		gap: 6px;
-        margin-top: 12px;
-
-		.day{
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			aspect-ratio: 1;
-			border-radius: 50%;
-			line-height: 100%;
-			background: white;
-			box-shadow: -2px 6px 15px rgba(#030025, 0.08), inset -2px -2px 4px rgba(#030025, 0.08);
-			pointer-events: none;
-
-			p{
-				font-size: 13px;
-				font-weight: 500;
-			}
-
-			&.active{
-				background: #6355FF;
-				box-shadow: -2px 6px 15px rgba(#030025, 0.36), inset -2px -4px 6px rgba(#030025, 0.1), inset 2px 4px 6px rgba(white, 0.24);
-				p{
-					color: white;
-				}
-
-			}
-		}
-
-	}
 
     input[type="text"]{
         border: 1px solid rgba($dark, .15);
         border-radius: 10px;
-        background: #f8faff;
+        background: #fbfcff;
         color: $dark;
 
         width: 100%;
@@ -470,7 +414,7 @@
         margin: 4px 0;
         transition: .2s ease;
         box-shadow: -2px 8px 8px rgba($dark, .05), inset 1px 2px 3px rgba(white, .5), inset -1px -3px 8px rgba($dark, .03);
-		box-shadow: -2px 8px 8px rgba($dark, .0), inset 2px 4px 8px rgba($dark, .1), inset -1px -3px 8px rgba(white, .1);
+		box-shadow: -2px 8px 8px rgba($dark, .0), inset 2px 4px 8px rgba($dark, .05), inset -1px -3px 8px rgba(white, .1);
 
         &.icon-input{
             background-image: url('/icon-search.svg');
@@ -550,107 +494,19 @@
 		font-size: 100px;
 	}
 
-	.button{
-		background: #6355FF;
-		width: fit-content;
-		color: white;
-		text-align: center;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 10px;
-		padding: 10px 18px 11px 18px;
-		box-shadow: -2px 8px 8px rgba($dark, .3), inset 1px 2px 3px rgba(white, .15), inset -1px -3px 6px 2px rgba($dark, .2);
-        margin: 4px 0;
-		transition: .2s ease;
-		cursor: pointer;
-
-		h2{
-			font-size: 14px;
-			font-weight: 600;
-			color: white;
-			font-family: 'Plus Jakarta Sans', sans-serif;
-            text-shadow: -2px 4px 8px rgba(black, .1);
-			letter-spacing: -.1px;
-			transition: .2s ease;
-		}
-
-		&:hover{
-			box-shadow: -2px 8px 12px rgba(black, .08), inset 0px 4px 8px 2px rgba(black, .3), inset -2px -3px 6px rgba(white, .1);
-			h2{
-				transform: translateY(.3px);
-
-			}
-		}
-
-        &.primary{
-            h2{
-                text-shadow: -2px 4px 8px rgba(black, .3);
-            }
-            &:hover{
-                h2{
-                    text-shadow: -2px 4px 8px rgba(black, .2);
-                }
-            }
-        }
-
-		&.secondary{
-			border: 1px solid rgba(#6355FF, 1);
-			background: rgba(white, 0);
-			color: #6355FF;
-			box-shadow: -2px 8px 8px rgba(black, .1), inset 1px 2px 3px rgba(white, .15), inset -1px -3px 8px rgba(#030025, .1);
-
-			h2{
-				color: #6355ff;
-			}
-
-			&:hover{
-				box-shadow: -2px 8px 8px rgba(black, .0), inset 0px 6px 8px rgba(#030025, .15), inset -2px -3px 6px rgba(white, .1);
-			}
-		}
-
-        &.tertiary{
-            background: #d6e0ff;
-			border: 1px solid #d6e0ff;
-            color: #6355FF;
-            box-shadow: -2px 8px 8px rgba(black, .08), inset 1px 2px 3px rgba(white, .15), inset -1px -3px 6px rgba(#030025, .05);
-
-            h2{
-                color: $dark;
-            }
-
-            &:hover{
-                box-shadow: -2px 8px 8px rgba(black, .0), inset 1px 4px 6px 2px rgba($dark, .1), inset -1px -3px 8px rgba(white, .08);
-            }
-        }
-
-        &.mini{
-            background: $dark;
-            padding: 7px 12px 8px 12px;
-            border: 1px solid rgba(black, .1);
-            box-shadow: -2px 8px 8px rgba(black, .08), inset 1px 2px 3px rgba(white, .25), inset -1px -3px 8px rgba(#030025, .9);
-
-            margin: 8px 0;
-
-            h2{
-                font-size: 13px;
-            }
-        }
-	}
-
 
 	.card{
 		width: 100%;
 		background: white;
 		//border: 2px solid white;
 		border-radius: 16px;
-		box-shadow: -10px 30px 40px rgba($dark, 0.25), inset -1px -2px 2px rgba($dark, 0.04);
+		//box-shadow: -10px 30px 40px rgba($dark, 0.25), inset -1px -2px 2px rgba($dark, 0.04);
 		box-sizing: border-box;
 		padding: 20px;
 		margin: 0;
 		position: relative;
 		overflow: hidden;
-        transition: .2s ease;
+        transition: .1s ease;
 
 		display: flex;
 		flex-direction: column;
@@ -682,26 +538,27 @@
 
 
 	section{
-		width: 95vw;
+		//width: 95vw;
 		max-width: 1300px;
 		margin: auto;
 	}
 
 	.title{
-		padding: 64px 0 32px 0;
+		padding: 100px 0 72px 0;
+		text-align: center;
 		h1{
-			font-family: 'Plus Jakarta Sans', sans-serif;
-			font-size: 44px;
-			font-weight: 900;
-			letter-spacing: -1.4px;
+			font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+			font-size: 72px;
+			font-weight: 650;
+			letter-spacing: -2px;
 			color: #171255;
-			margin-bottom: 2px;
+			margin-bottom: 10px;
 		}
 		h2{
 			font-size: 20px;
-			font-weight: 500;
-			letter-spacing: -.6px;
-			color: rgba(#171255, .5);
+			font-weight: 400;
+			letter-spacing: -.7px;
+			color: rgba(#171255, .6);
 		}
 	}
 
@@ -714,26 +571,14 @@
 		gap: 28px;
 		//border: 1px solid red;
 		display: grid;
+		box-sizing: border-box;
 		padding: 0;
 		grid-template-columns: repeat(4, 1fr);
 		grid-template-rows: repeat(4, 280px);
+		margin: auto;
 		margin-bottom: 100px;
 	}
 
-	h1 {
-		font-family: 'Inter', sans-serif;
-		font-weight: 750;
-		font-size: 28px;
-		letter-spacing: -0.4px;
-        color: $dark;
-	}
-
-	h2{
-		font-size: 18px;
-		font-weight: 700;
-		letter-spacing: -0.3px;
-        color: $dark;
-	}
 
 	.welcome {
 		display: block;

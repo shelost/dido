@@ -57,6 +57,7 @@
         display: flex;
         flex-direction: column;
         gap: 24px;
+        height: 100%;
     }
 
     .buttons{

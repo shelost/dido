@@ -6,6 +6,16 @@
     import { fly, scale } from 'svelte/transition';
     import { quintOut } from 'svelte/easing';
     import { crossfade } from 'svelte/transition';
+    import Tabs from '$lib/components/Tabs.svelte';
+
+    // Tabs configuration
+    let activeTab = 'products';
+    const storeTabs = ['products', 'collections', 'settings'];
+    const storeTabLabels = {
+        products: 'My Store',
+        collections: 'Landing Pages',
+        settings: 'Design'
+    };
 
     // Create a writable store for better reactivity
     const rowsStore = writable([
@@ -14,47 +24,53 @@
 		    name: 'Join My Membership',
 			type: 'Membership',
 			price: 29.00,
-		    img: 'rafaella',
+		    img: 'vector/membership',
+            thumbImg: 'vector/thumbnails/membership',
             visible: false
 		},
 		{
 			id: 2,
 			name: 'Digital Starter Kit',
-			type: 'Membership',
-			price: 29.00,
-		    img: 'rafaella',
+			type: 'Digital Product',
+			price: 49.00,
+		    img: 'vector/digital-kit',
+            thumbImg: 'vector/thumbnails/digital-kit',
             visible: false
 		},
 		{
 			id: 3,
 			name: '1:1 Coaching Call',
-			type: 'Membership',
-			price: 29.00,
-		    img: 'rafaella',
+			type: 'Service',
+			price: 99.00,
+		    img: 'vector/coaching',
+            thumbImg: 'vector/thumbnails/coaching',
             visible: false
 		},
 		{
 			id: 4,
-			name: 'Join My Membership',
-			type: 'Membership',
-			price: 29.00,
-		    img: 'rafaella',
+			name: 'Online Course Bundle',
+			type: 'Digital Product',
+			price: 149.00,
+		    img: 'vector/course',
+            thumbImg: 'vector/thumbnails/course',
             visible: false
 		},
         {
 			id: 5,
-			name: 'Join My Membership',
-			type: 'Membership',
-			price: 29.00,
-		    img: 'rafaella',
+			name: 'Ultimate Ebook Guide',
+			type: 'Digital Product',
+			price: 19.99,
+		    img: 'vector/ebook',
+            thumbImg: 'vector/thumbnails/ebook',
             visible: false
 		},
 		{
 			id: 6,
-			name: 'Join My Membership',
-			type: 'Membership',
-			price: 29.00,
-		    img: 'rafaella',
+			name: 'Workshop Series',
+			type: 'Live Event',
+			price: 79.00,
+		    img: 'vector/workshop',
+            thumbImg: 'vector/thumbnails/workshop',
             visible: false
 		},
 	]);
@@ -68,6 +84,14 @@
 	let cardsContainer;
 	let sortableInstance;
     let animationsReady = false;
+
+    // Function to handle image loading errors
+    function handleImageError(event) {
+        // If thumbnail fails, fall back to original image
+        const img = event.target;
+        const originalSrc = img.src.replace('/thumbnails/', '/');
+        img.src = originalSrc;
+    }
 
 	onMount(() => {
         // Start showing the cards with a staggered animation
@@ -144,17 +168,20 @@
 <div class="page">
 
     <section>
+        <div class = 'tabs'>
+            <Tabs activeTab={activeTab} tabs={storeTabs} tabLabels={storeTabLabels} />
+        </div>
+
         <div class = 'card profile'>
             <div class = 'content'>
                 <div class = 'img'>
                     <img src = '/rafaella.png' alt = 'Heewon Ahn' />
                 </div>
                 <div class = 'expo'>
-                    <h1> Heewon Ahn </h1>
-                    <h2> @heewon </h2>
+                    <h1> Rafaella Delacroix </h1>
+                    <h2> @rafaella</h2>
                 </div>
             </div>
-
         </div>
         <div class="cards" bind:this={cardsContainer}>
             {#each Rows as row, i (row.id)}
@@ -169,7 +196,14 @@
                         </div>
                         <div class="content">
                             <div class = 'img'>
-                                <img src = '/{row.img}.png' alt = {row.name} />
+                                <img
+                                    src = '/{row.thumbImg || row.img}.jpg'
+                                    alt = {row.name}
+                                    loading="lazy"
+                                    width="52"
+                                    height="52"
+                                    on:error={handleImageError}
+                                />
                             </div>
                             <div class = 'expo'>
                                 <h2>{row.name}</h2>
@@ -193,8 +227,15 @@
         width: 100%;
         display: flex;
         justify-content: flex-start;
+        gap: 32px;
     }
 
+    .tabs {
+        position: relative;
+        margin: 12px 0 24px 0;
+        display: flex;
+        justify-content: flex-start;
+    }
 
     .phone{
         width: 300px;
@@ -211,6 +252,7 @@
     .handle{
         width: 24px;
         height: 32px;
+        border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -259,6 +301,8 @@
                 justify-content: center;
                 img{
                     width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                 }
             }
         }
@@ -274,7 +318,9 @@
                 font-size: 14px;
                 font-weight: 400;
                 letter-spacing: -0.16px;
-                display: none;
+                display: block;
+                color: rgba(0,0,0,0.6);
+                margin-bottom: 4px;
             }
             h4{
                 font-size: 16px;
@@ -285,17 +331,18 @@
         }
 
         &:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+           // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+           cursor: pointer;
             transform: translateY(-2px);
         }
 
 
         &.profile{
-            margin: 32px 12px 0 12px;
+            margin: 0 12px 0px 12px;
 
             .img{
-                width: 72px;
-                height: 72px;
+                width: 90px;
+                height: 90px;
             }
 
             .expo{
@@ -303,7 +350,7 @@
                     font-family: 'Inter', sans-serif;
                     font-size: 24px;
                     font-weight: 600;
-                    letter-spacing: -.6px;
+                    letter-spacing: -.4px;
                     margin-bottom: 2px;
                 }
                 h2{

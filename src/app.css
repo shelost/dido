@@ -29,7 +29,7 @@ body {
   	),
   	linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
   	(*/
-  background: rgb(232, 237, 248);
+  background: rgb(232, 240, 248);
 }
 
 h1,
@@ -131,7 +131,7 @@ button:focus:not(:focus-visible) {
   box-shadow: -4px 12px 36px rgba(8, 18, 75, 0.1), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 8px rgba(8, 18, 75, 0.03);
 }
 
-.button {
+button, .button {
   background: #6355FF;
   width: -moz-fit-content;
   width: fit-content;
@@ -143,12 +143,12 @@ button:focus:not(:focus-visible) {
   border-radius: 10px;
   padding: 10px 18px 11px 18px;
   border: none;
-  box-shadow: -2px 8px 8px rgba(8, 18, 75, 0.3), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 6px 2px rgba(8, 18, 75, 0.2);
+  box-shadow: -2px 4px 8px rgba(8, 18, 75, 0.2), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 6px 2px rgba(8, 18, 75, 0.2);
   margin: 4px 0;
   transition: 0.2s ease;
   cursor: pointer;
 }
-.button h2 {
+button h2, .button h2 {
   font-size: 14px;
   font-weight: 600;
   color: white;
@@ -157,49 +157,58 @@ button:focus:not(:focus-visible) {
   letter-spacing: -0.1px;
   transition: 0.2s ease;
 }
-.button:hover {
-  box-shadow: -2px 8px 12px rgba(0, 0, 0, 0.08), inset 0px 4px 8px 2px rgba(0, 0, 0, 0.3), inset -2px -3px 6px rgba(255, 255, 255, 0.1);
+button:hover, .button:hover {
+  box-shadow: -2px 8px 12px rgba(0, 0, 0, 0.08), inset 0px 4px 8px 2px rgba(0, 0, 0, 0.2), inset -2px -3px 6px rgba(255, 255, 255, 0.1);
 }
-.button:hover h2 {
+button:hover h2, .button:hover h2 {
   transform: translateY(0.3px);
 }
-.button.primary h2 {
+button.primary h2, .button.primary h2 {
   text-shadow: -2px 4px 8px rgba(0, 0, 0, 0.3);
 }
-.button.primary:hover h2 {
+button.primary:hover h2, .button.primary:hover h2 {
   text-shadow: -2px 4px 8px rgba(0, 0, 0, 0.2);
 }
-.button.secondary {
+button.secondary, .button.secondary {
   border: 1px solid #6355ff;
   background: rgba(255, 255, 255, 0);
   color: #6355FF;
-  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0.1), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 8px rgba(3, 0, 37, 0.1);
+  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0.08), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 8px rgba(3, 0, 37, 0.1);
 }
-.button.secondary h2 {
+button.secondary h2, .button.secondary h2 {
   color: #6355ff;
 }
-.button.secondary:hover {
-  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0), inset 0px 6px 8px rgba(3, 0, 37, 0.15), inset -2px -3px 6px rgba(255, 255, 255, 0.1);
+button.secondary:hover, .button.secondary:hover {
+  box-shadow: -2px 8px 8px rgba(0, 0, 0, 0), inset 2px 2px 6px rgba(3, 0, 37, 0.15), inset -2px -3px 6px rgba(255, 255, 255, 0.1);
 }
-.button.tertiary {
+button.tertiary, .button.tertiary {
   background: #d6e0ff;
   border: 1px solid #d6e0ff;
   color: #6355FF;
   box-shadow: -2px 8px 8px rgba(0, 0, 0, 0.08), inset 1px 2px 3px rgba(255, 255, 255, 0.15), inset -1px -3px 6px rgba(3, 0, 37, 0.05);
 }
-.button.tertiary h2 {
+button.tertiary h2, .button.tertiary h2 {
   color: #08124b;
 }
-.button.tertiary:hover {
+button.tertiary:hover, .button.tertiary:hover {
   box-shadow: -2px 8px 8px rgba(0, 0, 0, 0), inset 1px 4px 6px 2px rgba(8, 18, 75, 0.1), inset -1px -3px 8px rgba(255, 255, 255, 0.08);
 }
-.button.mini {
+button.mini, .button.mini {
   background: #08124b;
   padding: 7px 12px 8px 12px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: -2px 8px 8px rgba(0, 0, 0, 0.08), inset 1px 2px 3px rgba(255, 255, 255, 0.25), inset -1px -3px 8px rgba(3, 0, 37, 0.9);
   margin: 8px 0;
 }
-.button.mini h2 {
+button.mini h2, .button.mini h2 {
   font-size: 13px;
+}
+
+:global(number-flow-svelte) {
+  --number-flow-char-height: 0.85em;
+  font-size: 52px;
+  letter-spacing: -2.5px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+  color: #08124b;
 }/*# sourceMappingURL=app.css.map */

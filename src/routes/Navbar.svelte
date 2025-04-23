@@ -29,11 +29,13 @@
             label: 'Customers',
             href: '/customers'
         },
+        /*
         {
             icon: 'People',
             label: 'Community',
             href: '/community'
         },
+
         {
             icon: 'Funnel',
             label: 'Funnels',
@@ -44,6 +46,7 @@
             label: 'Referrals',
             href: '/referrals'
         },
+        */
     ];
 
     // Function to just position the pill without navigation
@@ -133,6 +136,7 @@
         width: 200px;
         height: calc(100% - 16px);
         padding: 24px 12px;
+        padding: 18px 6px;
         border-radius: 12px;
         margin: 8px;
         box-sizing: border-box;
