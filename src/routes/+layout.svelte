@@ -25,6 +25,15 @@
 
 </div>
 
+<div class = 'mobile'>
+	<a href = 'https://www.ahnheewon.com'>
+		<img src = 'ahnheewon3.png' alt = 'Dido' />
+	</a>
+	<h1> This site is best viewed on desktop! </h1>
+	<p> Thanks for your understanding! </p>
+
+</div>
+
 
 <style lang="scss">
 	.app {
@@ -56,9 +65,44 @@
 		font-weight: bold;
 	}
 
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
+	.mobile{
+		display: none;
+	}
+
+	@media (max-width: 800px) {
+		.mobile{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			width: 100vw;
+			background: #fbfcff;
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 100;			transition: .2s ease;
+
+			text-align: center;
+			img{
+				height: 32px;
+				margin-bottom: 40px;
+			}
+			h1{
+				font-size: 24px;
+				font-weight: 600;
+				letter-spacing: -0.5px;
+				line-height: 1.2;
+				margin-bottom: 8px;
+				width: 90%;
+			}
+			p{
+				font-size: 16px;
+				font-weight: 400;
+				letter-spacing: -0.32px;
+				width: 90%;
+			}
+
 		}
 	}
 </style>
