@@ -278,6 +278,15 @@
     $dark:  #0d1852;
 
 
+	:global(number-flow-svelte) {
+		--number-flow-char-height: 0.85em;
+		font-size: 52px;
+		letter-spacing: -2.5px;
+		font-weight: 700;
+		font-family: 'Inter', sans-serif;
+		color: $dark;
+	}
+
 
 	#app{
 		width: 100%;
